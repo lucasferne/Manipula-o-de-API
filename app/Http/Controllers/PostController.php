@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\User;
+use App\Models\Credentials;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->token = Credentials::where('key', 'API_TOKEN')->first()->value;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,7 @@ class PostController extends Controller
      */
     public function index(User $user)
     {
-        return $user->posts;
+        return $user->posts->paginate(10);
     }
 
     /**

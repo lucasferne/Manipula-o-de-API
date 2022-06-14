@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\models\User;
+use App\Models\Credentials;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
- 
-    private $user;
-
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->token = Credentials::where('key', 'API_TOKEN')->first()->value;
     }
 
     /**
@@ -21,8 +20,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $users = $this->user->paginate(10);
+        $response = Http::get('https://gorest.co.in/public/v2/users');
 
+        return $response; 
     }
 
     /**
@@ -33,18 +33,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->user->create($request->all());
+        $response = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
+            "name" => $request->input('name'),
+            "gender" => $request->input('gender'),
+            "email" => $request->input('email'),
+            "status" => $request->input('status')
+        ]);
+
+        return $response;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function show($id)
     {
-        return $user;
+        $response = Http::get('https://gorest.co.in/public/v2/users/' . $id);
+        return $response;
     }
 
     /**
