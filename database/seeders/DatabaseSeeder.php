@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         DB::table('credentials')->insert([
             'key' => 'API_TOKEN',
-            'value' => 'd96280db41258d8599b2638ad0d3de3632deedadd5448b3bdabaf9c84507189b'
+            'value' => 'a2237a4ff96fb3bc6496d439bc33af1725e609780f4985468bbd2b8b8f105271'
         ]);
 
 

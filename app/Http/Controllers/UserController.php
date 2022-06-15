@@ -8,67 +8,48 @@ use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
-    public function __construct()
+    public function __construct() //construct pra evitar reescrever o token
     {
         $this->token = Credentials::where('key', 'API_TOKEN')->first()->value;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $response = Http::get('https://gorest.co.in/public/v2/users');
+        $users = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users');
 
-        return $response; 
+        return $users; //Retorna todos os usuários
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $response = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
+    
+        $dados = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
+            "name" => $request->input('name'),
+            "gender" => $request->input('gender'),
+            "email" => $request->input('email'),
+            "status" => $request->input('status'),
+        ]);
+
+        return $dados; //Retorna os dados criados para visualização após inserção
+    }
+
+    public function show($id)
+    {
+        return Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return Http::withToken($this->token)->put('https://gorest.co.in/public/v2/users/' . $id, [
             "name" => $request->input('name'),
             "gender" => $request->input('gender'),
             "email" => $request->input('email'),
             "status" => $request->input('status')
         ]);
-
-        return $response;
     }
 
-    public function show($id)
+    public function destroy($id)
     {
-        $response = Http::get('https://gorest.co.in/public/v2/users/' . $id);
-        return $response;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        return $user->update($request->all());
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        return $user->delete();
+        return Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/users/' . $id);
     }
 }
