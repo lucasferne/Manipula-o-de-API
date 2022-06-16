@@ -18,8 +18,8 @@ class PostController extends Controller
 
     public function index($id) //id do usuário
     {
-        $posts = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id . '/posts');
-        return $posts; //retorna os posts do usuário   
+        $posts = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id . '/posts')->collect();
+        return view('posts.view_post', ['posts' => $posts]);
     }
 
     public function store(Request $request, $id)

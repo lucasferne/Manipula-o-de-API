@@ -17,22 +17,32 @@ class CommentController extends Controller
         $this->token = Credentials::where('key', 'API_TOKEN')->first()->value;
     }
 
-    public function index($id_post) //id do post
+    public function index($id_post) 
     {
-        $comments = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments');
-        return $comments; //retorna os comentários do post
+        $comments = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments')->collect();
+        return view('comments.view_comments', ['comments' => $comments]);
     }
 
     public function store(Request $request, $id_post)
     {
 
         $comment = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments',[
-            "post_id" => $id_post,
             "name" => $request->input('name'),
             "email" => $request->input('email'),
             "body" => $request->input('body')
         ]);
 
         return $comment;
+    }
+
+    public function destroy($id_comment)
+    {
+        return Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/comments/' . $id_comment);
+    }
+
+    public function show($id_comment) //id do comentário 
+    {
+        $comment = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/comments/' . $id_comment);
+        return $comment; //retorna o comentário em específico
     }
 }

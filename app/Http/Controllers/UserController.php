@@ -15,14 +15,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users');
+        $users = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users')->collect();
 
-        return $users; //Retorna todos os usuários
+        return view('users.home', ['users' => $users]);
     }
 
     public function store(Request $request)
     {
-    
         $dados = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
             "name" => $request->input('name'),
             "gender" => $request->input('gender'),
@@ -30,12 +29,14 @@ class UserController extends Controller
             "status" => $request->input('status'),
         ]);
 
-        return $dados; //Retorna os dados criados para visualização após inserção
+        return redirect('/api/users');
     }
 
-    public function show($id)
+    public function show($id) //retorna um usuário específico
     {
-        return Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id);
+        $user = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id)->collect();
+
+        return view('users.view_user', ['user' => $user]);
     }
 
     public function update(Request $request, $id)
