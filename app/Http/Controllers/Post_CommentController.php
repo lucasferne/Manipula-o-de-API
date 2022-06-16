@@ -25,8 +25,11 @@ class Post_CommentController extends Controller
         return $post; //retorna o post em específico
     }
 
-   public function destroy($id_post)
+   public function destroy($id_post) 
    {
-        return Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/posts/' . $id_post);
+        Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/posts/' . $id_post); 
+        return back();
+        //deleta o post
+
    }
 }

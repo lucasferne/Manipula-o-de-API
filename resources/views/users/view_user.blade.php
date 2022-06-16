@@ -4,10 +4,7 @@
 
 @section('content')
 
-    <div class="row">
-        <h1 class="col">{{ $user['id'] }} {{ $user['name'] }}</h1>
-        <a class="col" type="btn" href="">Editar</a>
-    </div>
+    <h1>{{ $user['id'] }} {{ $user['name'] }}</h1>
 
     </div>
     <div class="row">

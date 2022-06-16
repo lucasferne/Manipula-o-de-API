@@ -51,6 +51,8 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        return Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/users/' . $id);
+        Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/users/' . $id);
+
+        return redirect('/api/users');
     }
 }

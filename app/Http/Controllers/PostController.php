@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index($id) //id do usuário
     {
         $posts = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/users/' . $id . '/posts')->collect();
-        return view('posts.view_post', ['posts' => $posts]);
+        return view('posts.view_post', ['posts' => $posts, 'id_user' => $id]); //lista todos os posts do usuário
     }
 
     public function store(Request $request, $id)
@@ -30,6 +30,6 @@ class PostController extends Controller
             "body" => $request->input('body')
         ]);
 
-        return $post;
+        return redirect('/api/users/' . $id . '/posts'); //cria um novo post
     }
 }

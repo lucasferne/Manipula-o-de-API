@@ -20,12 +20,11 @@ class CommentController extends Controller
     public function index($id_post) 
     {
         $comments = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments')->collect();
-        return view('comments.view_comments', ['comments' => $comments]);
+        return view('comments.view_comments', ['comments' => $comments, 'id_post' => $id_post]); //retorna todos os comentários no post
     }
 
     public function store(Request $request, $id_post)
     {
-
         $comment = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments',[
             "name" => $request->input('name'),
             "email" => $request->input('email'),
