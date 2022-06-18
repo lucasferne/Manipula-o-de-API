@@ -23,15 +23,15 @@ class CommentController extends Controller
         return view('comments.view_comments', ['comments' => $comments, 'id_post' => $id_post]); //retorna todos os comentários no post
     }
 
-    public function store(Request $request, $id_post) //necessário o ID do post enviado pelo formulário
+    public function store(Request $request) //necessário o ID do post enviado pelo formulário
     {
-        $comment = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/posts/' . $id_post . '/comments',[
+        $comment = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/posts/' . $request->input('id_post') . '/comments',[
             "name" => $request->input('name'),
             "email" => $request->input('email'),
             "body" => $request->input('body')
         ]);
 
-        return redirect('/api/posts/' . $id_post . '/comments'); //cria um novo comentário
+        return redirect('/api/posts/' . $request->input('id_post') . '/comments'); //cria um novo comentário
     }
 
     public function destroy($id_comment) //deleta o comentário do ID selecionado

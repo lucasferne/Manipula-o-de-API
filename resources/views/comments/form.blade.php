@@ -12,7 +12,8 @@
     <div class="container">
         <h1>Criar comentário</h1>
         {{-- ERRO AQUI RESOLVER DEPOIS --}}
-        <form action="{{route('comment.store', ['id_post' => $id_post])}}" method="post">
+        {{$id_post}}
+        <form action="{{route('comments.store', ['id_post' => $id_post])}}" method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Nome</label>
                 <input type="text" class="form-control" name="name" placeholder="Insira o título">
