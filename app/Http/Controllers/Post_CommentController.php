@@ -13,7 +13,7 @@ class Post_CommentController extends Controller
         $this->token = Credentials::where('key', 'API_TOKEN')->first()->value;
     }
 
-    public function index() 
+    public function index() //lista todos os posts existentes no banco
     {
         $posts = Http::withToken($this->token)->get('https://gorest.co.in/public/v2/posts');
         return $posts;

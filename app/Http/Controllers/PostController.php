@@ -22,7 +22,7 @@ class PostController extends Controller
         return view('posts.view_post', ['posts' => $posts, 'id_user' => $id]); //lista todos os posts do usuário
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request, $id) //Id do usuário
     {
 
         $post = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users/' . $id . '/posts',[

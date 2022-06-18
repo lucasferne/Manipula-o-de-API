@@ -1,25 +1,27 @@
 @extends('layouts.main')
 
-@section('title', 'user')
+@section('title', 'User')
+
+@section('menus')
+    <a href="{{ route('users.index') }}">Voltar</a>
+@endsection
 
 @section('content')
 
-    <h1>{{ $user['id'] }} {{ $user['name'] }}</h1>
-
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1><span class="badge bg-dark">{{ $user['id'] }}</span> {{ $user['name'] }} </h1>
+                <hr>
+                <span><h6> {{ $user['gender'] }} - user {{ $user['status'] }} </h6></span> 
+            </div>
+            <span class="badge bg-dark"> <h6>{{ $user['email'] }}</h6></span>
+          
+                <a class="nomes btn btn-success" type="button" href="{{ route('users.posts.index', [$user['id']]) }}"> Posts </a>
+            
+            
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-8">
-            <h3>{{ $user['email'] }}</h3>
-        </div>
-        <div class="col">
-            <h3>{{ $user['gender'] }}</h3>
-        </div>
-        <div class="col">
-            <h3>{{ $user['status'] }}</h3>
-        </div>
-    </div>
 
-    <a type="button" class="btn btn-success" href="{{ route('users.posts.index', [$user['id']]) }}">Posts de
-        {{ $user['name'] }}</a>
 
 @endsection

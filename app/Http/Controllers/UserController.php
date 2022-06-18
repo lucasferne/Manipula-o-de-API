@@ -20,9 +20,9 @@ class UserController extends Controller
         return view('users.home', ['users' => $users]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request) //Cria um novo usuário
     {
-        $dados = Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
+        Http::withToken($this->token)->post('https://gorest.co.in/public/v2/users',[
             "name" => $request->input('name'),
             "gender" => $request->input('gender'),
             "email" => $request->input('email'),
@@ -39,7 +39,7 @@ class UserController extends Controller
         return view('users.view_user', ['user' => $user]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) //Update em um usuário
     {
         return Http::withToken($this->token)->put('https://gorest.co.in/public/v2/users/' . $id, [
             "name" => $request->input('name'),
@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id) //Exclui o usuário do ID selecionado
     {
         Http::withToken($this->token)->delete('https://gorest.co.in/public/v2/users/' . $id);
 

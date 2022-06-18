@@ -25,3 +25,6 @@ Route::apiResource('posts', \App\Http\Controllers\Post_CommentController::class)
 Route::apiResource('posts.comments', \App\Http\Controllers\CommentController::class);
 
 Route::apiResource('comments', \App\Http\Controllers\CommentController::class);
+
+//gambiarra
+Route::post('comment/store/{id_post}/comments', [\App\Http\Controllers\CommentController::class,'store'])->name('comment.store');

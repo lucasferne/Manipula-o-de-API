@@ -1,6 +1,10 @@
 @extends('layouts.main')
 
-@section('title', 'Users')
+@section('title', 'Form')
+
+@section('menus')
+    <a href="{{ route('users.index') }}">Voltar</a>
+@endsection
 
 @section('content')
 
